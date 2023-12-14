@@ -84,24 +84,14 @@ document.addEventListener('DOMContentLoaded', function() {
     let startY = 10;
     const lineHeight = 10;
 
-    // List of headers to be bolded
-    const boldHeaders = [
-      "Key Resources", "Key Activities", "Partners + Key Stakeholders",
-      "Cost Structure", "Type of Intervention", "Channels", "Surplus",
-      "Revenue", "Segments: Beneficiaries", "Segments: Customers",
-      "Social Value Proposition", "Impact Measure", "Customer Value Proposition"
-    ];
-
     // Loop through sections
     document.querySelectorAll('.section').forEach(function(section, index) {
       // Get the section title
       const sectionTitle = section.querySelector('.section-title').textContent;
 
-      // Determine if the header should be bold
-      const isBold = boldHeaders.includes(sectionTitle);
-
-      // Add section title to the PDF
-      doc.setFontStyle(isBold ? "bold" : "normal");
+      // Add section title to the PDF in bold
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(14); // You can adjust the font size if needed
       doc.text(20, startY, sectionTitle);
       startY += lineHeight;
 
