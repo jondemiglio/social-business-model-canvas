@@ -19,11 +19,11 @@
 </head>
 <body>
 <div class="canvas-container">
-  <h1>Social Business Model Canvas</h1>
-  <div class="section triple">
-    <div class="section-title">Key Resources</div>
-    <textarea placeholder="What resources will you need to run your activities? People, finance, access?"></textarea>
-  </div>
+    <h1>Social Business Model Canvas</h1>
+    <div class="section triple">
+      <div class="section-title">Key Resources</div>
+      <textarea placeholder="What resources will you need to run your activities? People, finance, access?"></textarea>
+    </div>
   <div class="section triple">
     <div class="section-title">Key Activities</div>
     <textarea placeholder="What will you do to deliver your programme? Do you need special access or permissions?"></textarea>
@@ -95,7 +95,7 @@
           doc.text(20, startY, sectionTitle);
           startY += lineHeight;
 
-          // Loop through textareas within the section
+          // Explicitly select textareas within the section
           section.querySelectorAll('textarea').forEach(function(textarea) {
             let textLines = doc.splitTextToSize(textarea.value, 180);
             doc.text(20, startY, textLines);
