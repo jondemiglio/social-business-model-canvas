@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Social Business Model Canvas</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
   <style>
     body { font-family: Arial, sans-serif; margin: 20px; }
     .section { margin-bottom: 20px; }
@@ -94,14 +95,13 @@
   </div>
 
   <button id="download-pdf">Download as PDF</button>
-  
-  <script type="module">
-    import { jsPDF } from "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js";
-    
+
+  <script>
     document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('download-pdf').addEventListener('click', function() {
-        const pdf = new jsPDF();
-        let yPos = 10;
+        // Use jsPDF from the global scope
+        const pdf = new jsPDF.jsPDF();
+        let yPos = 20;
 
         document.querySelectorAll('.section').forEach(function(section, index) {
           const title = section.querySelector('.section-title').innerText;
@@ -113,12 +113,12 @@
           pdf.setFontSize(12);
           const lines = pdf.splitTextToSize(content, 180);
           yPos += 10;
-          pdf.text(lines, 20, yPos);
+          pdf.text(lines, 20, yPos + 10);
           yPos += lines.length * 10 + 10;
 
           if (index < document.querySelectorAll('.section').length - 1) {
             pdf.addPage();
-            yPos = 10; // Reset the vertical position for the new page
+            yPos = 20; // Reset yPos for the new page
           }
         });
 
