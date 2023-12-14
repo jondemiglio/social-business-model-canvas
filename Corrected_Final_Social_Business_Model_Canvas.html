@@ -4,7 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Social Business Model Canvas</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.70/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.70/vfs_fonts.js"></script>
   <style>
     body { font-family: Arial, sans-serif; margin: 20px; }
     .section { margin-bottom: 20px; }
@@ -67,7 +68,7 @@
   <!-- Section 9 -->
   <div class="section">
     <div class="section-title">Segments: Beneficiaries</div>
-    <textarea placeholder=""></textarea>
+    <textarea></textarea>
   </div>
 
   <!-- Section 10 -->
@@ -79,7 +80,7 @@
   <!-- Section 11 -->
   <div class="section">
     <div class="section-title">Social Value Proposition</div>
-    <textarea placeholder=""></textarea>
+    <textarea></textarea>
   </div>
 
   <!-- Section 12 -->
@@ -94,38 +95,34 @@
     <textarea placeholder="What do your customers want to get out of this initiative?"></textarea>
   </div>
 
- <button id="download-pdf">Download as PDF</button>
+  <button id="download-pdf">Download as PDF</button>
 
   <script>
     document.getElementById('download-pdf').addEventListener('click', function() {
-      const pdf = new jsPDF();
-      let yPos = 10;
-
-      document.querySelectorAll('.section').forEach(function(section, index) {
-        if (yPos > 260) { 
-          pdf.addPage();
-          yPos = 10;
+      var docDefinition = {
+        content: [],
+        styles: {
+          sectionHeader: {
+            bold: true,
+            fontSize: 14,
+            margin: [0, 15, 0, 15] // left, top, right, bottom
+          },
+          sectionContent: {
+            fontSize: 12,
+            margin: [0, 5, 0, 10]
+          }
         }
+      };
 
+      document.querySelectorAll('.section').forEach(function(section) {
         const title = section.querySelector('.section-title').innerText;
         const content = section.querySelector('textarea').value;
 
-        pdf.setFontSize(16);
-        pdf.text(title, 10, yPos);
-
-        yPos += 6; 
-        pdf.setFontSize(12);
-        const lines = pdf.splitTextToSize(content, 180);
-        pdf.text(lines, 10, yPos + 6);
-        yPos += (lines.length + 1) * 6;
-
-        if (index < document.querySelectorAll('.section').length - 1) {
-          pdf.addPage();
-          yPos = 10;
-        }
+        docDefinition.content.push({ text: title, style: 'sectionHeader' });
+        docDefinition.content.push({ text: content || ' ', style: 'sectionContent' });
       });
 
-      pdf.save('Social-Business-Model-Canvas.pdf');
+      pdfMake.createPdf(docDefinition).download('Social-Business-Model-Canvas.pdf');
     });
   </script>
 </body>
