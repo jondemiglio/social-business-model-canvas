@@ -72,9 +72,9 @@
     <div class="section-title">Customer Value Proposition</div>
     <textarea placeholder="What do your customers want to get out of this initiative?"></textarea>
   </div>
-  <button id="download-pdf">Download as PDF</button>
-</div>
-<script>
+ <button id="download-pdf">Download as PDF</button>
+  </div>
+  <script>
     document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('download-pdf').addEventListener('click', function() {
         console.log('Download button clicked!');
@@ -87,7 +87,7 @@
         // Loop through sections
         document.querySelectorAll('.section').forEach(function(section, index) {
           // Get the section title
-          const sectionTitle = section.querySelector('h1').textContent;
+          const sectionTitle = section.querySelector('.section-title').textContent;
 
           // Add section title to the PDF in bold
           doc.setFont("helvetica", "bold");
