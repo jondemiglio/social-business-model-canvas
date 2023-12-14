@@ -114,39 +114,52 @@
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       document.getElementById('download-pdf').addEventListener('click', function () {
+        console.log('Download button clicked!');
+        console.log(window.jspdf);
+
         const doc = new window.jspdf.jsPDF();
+        const lineHeight = 10;
 
         // Loop through sections
         document.querySelectorAll('.section').forEach(function (section, index) {
-          // Get the section title and textarea value
+          // Get the section title
           const sectionTitle = section.querySelector('.section-title').textContent;
-          const textareaValue = section.querySelector('textarea').value;
 
-          // Add section title to the PDF
+          // Add section title to the PDF in bold
           doc.setFont("helvetica", "bold");
-          doc.setFontSize(14);
-          doc.text(20, 10 + index * 60, sectionTitle);
+          doc.setFontSize(14); // You can adjust the font size if needed
+          doc.text(20, lineHeight, sectionTitle);
 
-          // Convert textarea content to an array of arrays for autotable
-          const contentArray = [[textareaValue]];
+          // Maintain the original spacing
+          let startY = lineHeight * 2;
 
-          // Generate a hidden table for autotable
-          const table = section.querySelector('.hidden-table');
-          table.innerHTML = '';
-          doc.autoTable({
-            head: [],
-            body: contentArray,
-            startY: 15 + index * 60,
-            tableWidth: 'auto',
-            columnStyles: { 0: { cellWidth: 'auto' } },
+          // Explicitly select textareas within the section
+          section.querySelectorAll('textarea').forEach(function (textarea) {
+            let textLines = doc.splitTextToSize(textarea.value, 180);
+
+            // Check if there is enough space on the current page
+            if (startY + textLines.length * lineHeight > doc.internal.pageSize.height) {
+              // If not, add a new page
+              doc.addPage();
+              doc.setFontSize(14); // Reset font size for section titles
+              startY = lineHeight * 2;
+            }
+
+            // Add text to the PDF
+            textLines.forEach(line => {
+              doc.text(20, startY, line);
+              startY += lineHeight;
+            });
+
+            // Add extra spacing between lines
+            startY += 5;
           });
 
           // Add space between sections
-          doc.setLineWidth(0.5);
-          doc.line(10, 55 + index * 60, 200, 55 + index * 60);
+          startY += lineHeight + 5; // Increase the vertical spacing
         });
 
-        // Save the PDF
+        // Save PDF
         doc.save('Social-Business-Model-Canvas.pdf');
       });
     });
