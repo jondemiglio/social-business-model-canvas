@@ -98,43 +98,46 @@
   <button id="download-pdf">Download as PDF</button>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      document.getElementById('download-pdf').addEventListener('click', function () {
-        const pdf = new window.jspdf.jsPDF();
-        const sections = document.querySelectorAll('.section');
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('download-pdf').addEventListener('click', function() {
+    const doc = new jsPDF();
+    
+    let currentSection = 0;
+    const sections = document.querySelectorAll('.section');
+    const sectionCount = sections.length;
+    
+    function addNextSectionToPDF() {
+      // Check if all sections have been added
+      if (currentSection >= sectionCount) {
+        // All sections added, save the PDF
+        doc.save('Social-Business-Model-Canvas.pdf');
+        return;
+      }
+      
+      // Process the current section
+      const section = sections[currentSection];
+      const title = section.querySelector('.section-title').textContent;
+      const content = section.querySelector('textarea').value;
+      
+      doc.setFontSize(16);
+      doc.text(title, 20, 20); // Title position
+      
+      const textLines = doc.splitTextToSize(content, 180); // Split lines to fit the page
+      doc.setFontSize(12);
+      doc.text(textLines, 20, 30); // Content position
 
-        function addSectionToPDF(index) {
-          const section = sections[index];
-
-          // Get the section title
-          const sectionTitle = section.querySelector('.section-title').textContent;
-
-          // Add section title to the PDF in bold
-          pdf.setFont("helvetica", "bold");
-          pdf.setFontSize(14); // You can adjust the font size if needed
-          pdf.text(20, 10, sectionTitle);
-
-          // Use html2canvas to capture the section as an image
-          html2canvas(section).then(canvas => {
-            const imageData = canvas.toDataURL('image/png');
-
-            // Add the image to the PDF
-            pdf.addImage(imageData, 'PNG', 20, 20, 160, 100);
-
-            // Add space between sections
-            pdf.addPage();
-          });
-        }
-
-        // Loop through sections
-        for (let i = 0; i < sections.length; i++) {
-          addSectionToPDF(i);
-        }
-
-        // Save PDF
-        pdf.save('Social-Business-Model-Canvas.pdf');
-      });
-    });
-  </script>
+      currentSection++;
+      if (currentSection < sectionCount) {
+        // Add a new page before adding the next section
+        doc.addPage();
+      }
+      
+      addNextSectionToPDF(); // Add the next section
+    }
+    
+    addNextSectionToPDF(); // Start the process
+  });
+});
+</script>
 </body>
 </html>
