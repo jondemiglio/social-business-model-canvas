@@ -8,7 +8,6 @@
   <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
   <style>
     body { font-family: Arial, sans-serif; margin: 20px; }
-    .canvas-container { max-width: 1024px; margin: auto; display: grid; grid-template-columns: repeat(5, 1fr); grid-gap: 10px; }
     .section { margin-bottom: 20px; }
     .section-title { font-weight: bold; margin-bottom: 5px; }
     textarea { width: 100%; height: 100px; }
@@ -16,96 +15,95 @@
   </style>
 </head>
 <body>
-  <div class="canvas-container">
-    <h1>Social Business Model Canvas</h1>
+  <h1>Social Business Model Canvas</h1>
 
-    <!-- Section 1 -->
-    <div class="section triple">
-      <div class="section-title">Key Resources</div>
-      <textarea placeholder="What resources will you need to run your activities? People, finance, access?"></textarea>
-    </div>
-
-    <!-- Section 2 -->
-    <div class="section triple">
-      <div class="section-title">Key Activities</div>
-      <textarea placeholder="What will you do to deliver your programme? Do you need special access or permissions?"></textarea>
-    </div>
-
-    <!-- Section 3 -->
-    <div class="section double">
-      <div class="section-title">Partners + Key Stakeholders</div>
-      <textarea placeholder="Who are the essential groups you will need to involve to deliver your programme?"></textarea>
-    </div>
-
-    <!-- Section 4 -->
-    <div class="section triple">
-      <div class="section-title">Cost Structure</div>
-      <textarea placeholder="What are your biggest expenditure areas? How do they change as you scale up?"></textarea>
-    </div>
-
-    <!-- Section 5 -->
-    <div class="section">
-      <div class="section-title">Type of Intervention</div>
-      <textarea placeholder="What is the format of your intervention? Is it a workshop? A service? A product?"></textarea>
-    </div>
-
-    <!-- Section 6 -->
-    <div class="section">
-      <div class="section-title">Channels</div>
-      <textarea placeholder="How are you reaching your beneficiaries and customers?"></textarea>
-    </div>
-
-    <!-- Section 7 -->
-    <div class="section">
-      <div class="section-title">Surplus</div>
-      <textarea placeholder="Where do you plan to invest your profits?"></textarea>
-    </div>
-
-    <!-- Section 8 -->
-    <div class="section double">
-      <div class="section-title">Revenue</div>
-      <textarea placeholder="Break down your revenue sources by %."></textarea>
-    </div>
-
-    <!-- Section 9 -->
-    <div class="section">
-      <div class="section-title">Segments: Beneficiaries</div>
-      <textarea placeholder=""></textarea>
-    </div>
-
-    <!-- Section 10 -->
-    <div class="section">
-      <div class="section-title">Segments: Customers</div>
-      <textarea placeholder="Who are the people or organisations who will pay to address this issue?"></textarea>
-    </div>
-
-    <!-- Section 11 -->
-    <div class="section">
-      <div class="section-title">Social Value Proposition</div>
-      <textarea placeholder=""></textarea>
-    </div>
-
-    <!-- Section 12 -->
-    <div class="section">
-      <div class="section-title">Impact Measure</div>
-      <textarea placeholder="How will you show that you are creating social impact?"></textarea>
-    </div>
-
-    <!-- Section 13 -->
-    <div class="section">
-      <div class="section-title">Customer Value Proposition</div>
-      <textarea placeholder="What do your customers want to get out of this initiative?"></textarea>
-    </div>
-
-    <button id="download-pdf">Download as PDF</button>
+  <!-- Section 1 -->
+  <div class="section">
+    <div class="section-title">Key Resources</div>
+    <textarea placeholder="What resources will you need to run your activities? People, finance, access?"></textarea>
   </div>
- <script>
+
+  <!-- Section 2 -->
+  <div class="section">
+    <div class="section-title">Key Activities</div>
+    <textarea placeholder="What will you do to deliver your programme? Do you need special access or permissions?"></textarea>
+  </div>
+
+  <!-- Section 3 -->
+  <div class="section">
+    <div class="section-title">Partners + Key Stakeholders</div>
+    <textarea placeholder="Who are the essential groups you will need to involve to deliver your programme?"></textarea>
+  </div>
+
+  <!-- Section 4 -->
+  <div class="section">
+    <div class="section-title">Cost Structure</div>
+    <textarea placeholder="What are your biggest expenditure areas? How do they change as you scale up?"></textarea>
+  </div>
+
+  <!-- Section 5 -->
+  <div class="section">
+    <div class="section-title">Type of Intervention</div>
+    <textarea placeholder="What is the format of your intervention? Is it a workshop? A service? A product?"></textarea>
+  </div>
+
+  <!-- Section 6 -->
+  <div class="section">
+    <div class="section-title">Channels</div>
+    <textarea placeholder="How are you reaching your beneficiaries and customers?"></textarea>
+  </div>
+
+  <!-- Section 7 -->
+  <div class="section">
+    <div class="section-title">Surplus</div>
+    <textarea placeholder="Where do you plan to invest your profits?"></textarea>
+  </div>
+
+  <!-- Section 8 -->
+  <div class="section">
+    <div class="section-title">Revenue</div>
+    <textarea placeholder="Break down your revenue sources by %."></textarea>
+  </div>
+
+  <!-- Section 9 -->
+  <div class="section">
+    <div class="section-title">Segments: Beneficiaries</div>
+    <textarea placeholder=""></textarea>
+  </div>
+
+  <!-- Section 10 -->
+  <div class="section">
+    <div class="section-title">Segments: Customers</div>
+    <textarea placeholder="Who are the people or organisations who will pay to address this issue?"></textarea>
+  </div>
+
+  <!-- Section 11 -->
+  <div class="section">
+    <div class="section-title">Social Value Proposition</div>
+    <textarea placeholder=""></textarea>
+  </div>
+
+  <!-- Section 12 -->
+  <div class="section">
+    <div class="section-title">Impact Measure</div>
+    <textarea placeholder="How will you show that you are creating social impact?"></textarea>
+  </div>
+
+  <!-- Section 13 -->
+  <div class="section">
+    <div class="section-title">Customer Value Proposition</div>
+    <textarea placeholder="What do your customers want to get out of this initiative?"></textarea>
+  </div>
+
+  <button id="download-pdf">Download as PDF</button>
+
+  <script>
     document.addEventListener('DOMContentLoaded', function () {
       document.getElementById('download-pdf').addEventListener('click', function () {
-        html2canvas(document.querySelector('.canvas-container')).then(canvas => {
+        html2canvas(document.body).then(canvas => {
           const imgData = canvas.toDataURL('image/png');
           const pdf = new window.jspdf.jsPDF();
-          
+
           // Set the size of the PDF to match the canvas
           pdf.addImage(imgData, 'PNG', 0, 0, canvas.width / 3, canvas.height / 3);
 
