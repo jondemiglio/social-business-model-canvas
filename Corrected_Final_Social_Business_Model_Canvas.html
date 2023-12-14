@@ -95,45 +95,35 @@
     <textarea placeholder="What do your customers want to get out of this initiative?"></textarea>
   </div>
 
-  <button id="download-pdf">Download as PDF</button>
+ <button id="download-pdf">Download as PDF</button>
 
   <script>
     document.getElementById('download-pdf').addEventListener('click', function() {
       var docDefinition = {
-        content: [
-          {
-            columns: [
-              // First column content
-              {
-                stack: [
-                  { text: 'Key Resources', style: 'header' },
-                  { text: document.getElementById('key-resources').value, style: 'content' },
-                  { text: 'Partners + Key Stakeholders', style: 'header' },
-                  { text: document.getElementById('partners').value, style: 'content' }
-                  // Add more sections as needed
-                ],
-              },
-              // Repeat for each column as needed
-            ],
-            // Define the column widths
-            columnGap: 10
-          }
-        ],
+        content: [],
+        pageMargins: [40, 60, 40, 60], // [left, top, right, bottom]
         styles: {
-          header: {
+          sectionHeader: {
             bold: true,
             fontSize: 14,
-            margin: [0, 5, 0, 15] // left, top, right, bottom
+            margin: [0, 5, 0, 10] // left, top, right, bottom
           },
-          content: {
-            fontSize: 11,
+          sectionContent: {
+            fontSize: 12,
             margin: [0, 0, 0, 10]
           }
-        },
-        defaultStyle: {
-          // can set a default font
         }
       };
+
+      document.querySelectorAll('.section').forEach(function(section) {
+        const title = section.querySelector('.section-title').innerText;
+        const content = section.querySelector('textarea').value;
+
+        docDefinition.content.push({ text: title, style: 'sectionHeader' });
+        if (content.trim() !== '') {
+          docDefinition.content.push({ text: content, style: 'sectionContent' });
+        }
+      });
 
       pdfMake.createPdf(docDefinition).download('Social-Business-Model-Canvas.pdf');
     });
