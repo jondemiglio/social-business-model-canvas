@@ -75,12 +75,12 @@
   </div>
   <button id="download-pdf">Download as PDF</button>
 </div>
-
-<script>
+  <script>
   document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('download-pdf').addEventListener('click', function() {
+      console.log('Download button clicked!'); // This should appear in the console when the button is clicked.
       const doc = new jsPDF();
-      
+
       let startY = 10; // Starting Y position for the first line of text
       const lineHeight = 10; // Line height for each new line of text
 
