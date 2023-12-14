@@ -77,37 +77,37 @@
  <script>
   document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('download-pdf').addEventListener('click', function () {
-      console.log('Download button clicked!');
-      console.log(window.jspdf);
+        console.log('Download button clicked!');
+        console.log(window.jspdf);
 
-      const doc = new window.jspdf.jsPDF();
-      let startY = 10;
-      const lineHeight = 10;
+        const doc = new window.jspdf.jsPDF();
+        let startY = 10;
+        const lineHeight = 10;
 
-      // Loop through sections
-      document.querySelectorAll('.section').forEach(function (section, index) {
-        // Get the section title
-        const sectionTitle = section.querySelector('.section-title').textContent;
+        // Loop through sections
+        document.querySelectorAll('.section').forEach(function (section, index) {
+            // Get the section title
+            const sectionTitle = section.querySelector('.section-title').textContent;
 
-        // Add section title to the PDF
-        doc.setFontStyle("bold");
-        doc.text(20, startY, sectionTitle);
-        startY += lineHeight;
+            // Add section title to the PDF
+            doc.setFont("bold");
+            doc.text(20, startY, sectionTitle);
+            startY += lineHeight;
 
-        // Loop through textareas within the section
-        section.querySelectorAll('textarea').forEach(function (textarea) {
-          let textLines = doc.splitTextToSize(textarea.value, 180);
-          doc.text(20, startY, textLines);
-          startY += (textLines.length + 1) * lineHeight;
+            // Loop through textareas within the section
+            section.querySelectorAll('textarea').forEach(function (textarea) {
+                let textLines = doc.splitTextToSize(textarea.value, 180);
+                doc.text(20, startY, textLines);
+                startY += (textLines.length + 1) * lineHeight;
+            });
+
+            // Add space between sections
+            startY += lineHeight;
         });
 
-        // Add space between sections
-        startY += lineHeight;
-      });
-
-      doc.save('Social-Business-Model-Canvas.pdf');
+        doc.save('Social-Business-Model-Canvas.pdf');
     });
-  });
+});
 </script>
 </body>
 </html>
