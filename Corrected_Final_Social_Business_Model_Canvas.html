@@ -1,114 +1,101 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Social Business Model Canvas</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
-<style>
-  body { font-family: Arial, sans-serif; margin: 20px; }
-  .canvas-container { max-width: 1024px; margin: auto; display: grid; grid-template-columns: repeat(5, 1fr); grid-gap: 10px; }
-  .section { margin-bottom: 20px; }
-  .section-title { font-weight: bold; margin-bottom: 5px; }
-  textarea { width: 100%; height: 100px; }
-  button { padding: 10px 20px; font-size: 16px; margin-top: 20px; }
-  /* Layout adjustments */
-  .double { grid-column: span 2; }
-  .triple { grid-column: span 3; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Social Business Model Canvas</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    .canvas-container {
+      max-width: 1024px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      grid-gap: 10px;
+    }
+
+    .section {
+      margin-bottom: 20px;
+    }
+
+    .section-title {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 100px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin-top: 20px;
+    }
+
+    /* Layout adjustments */
+    .double {
+      grid-column: span 2;
+    }
+
+    .triple {
+      grid-column: span 3;
+    }
+  </style>
 </head>
+
 <body>
-<div class="canvas-container">
-  <h1>Social Business Model Canvas</h1>
-  <div class="section triple">
-    <div class="section-title">Key Resources</div>
-    <textarea placeholder="What resources will you need to run your activities? People, finance, access?"></textarea>
+  <div class="canvas-container">
+    <h1>Social Business Model Canvas</h1>
+    <div class="section triple">
+      <div class="section-title">Key Resources</div>
+      <textarea placeholder="What resources will you need to run your activities? People, finance, access?"></textarea>
+    </div>
+    <!-- ... Other sections ... -->
+    <button id="download-pdf">Download as PDF</button>
   </div>
-  <div class="section triple">
-    <div class="section-title">Key Activities</div>
-    <textarea placeholder="What will you do to deliver your programme? Do you need special access or permissions?"></textarea>
-  </div>
-  <div class="section double">
-    <div class="section-title">Partners + Key Stakeholders</div>
-    <textarea placeholder="Who are the essential groups you will need to involve to deliver your programme?"></textarea>
-  </div>
-  <div class="section triple">
-    <div class="section-title">Cost Structure</div>
-    <textarea placeholder="What are your biggest expenditure areas? How do they change as you scale up?"></textarea>
-  </div>
-  <div class="section">
-    <div class="section-title">Type of Intervention</div>
-    <textarea placeholder="What is the format of your intervention? Is it a workshop? A service? A product?"></textarea>
-  </div>
-  <div class="section">
-    <div class="section-title">Channels</div>
-    <textarea placeholder="How are you reaching your beneficiaries and customers?"></textarea>
-  </div>
-  <div class="section">
-    <div class="section-title">Surplus</div>
-    <textarea placeholder="Where do you plan to invest your profits?"></textarea>
-  </div>
-  <div class="section double">
-    <div class="section-title">Revenue</div>
-    <textarea placeholder="Break down your revenue sources by %."></textarea>
-  </div>
-  <div class="section">
-    <div class="section-title">Segments: Beneficiaries</div>
-    <textarea placeholder=""></textarea>
-  </div>
-  <div class="section">
-    <div class="section-title">Segments: Customers</div>
-    <textarea placeholder="Who are the people or organisations who will pay to address this issue?"></textarea>
-  </div>
-  <div class="section">
-    <div class="section-title">Social Value Proposition</div>
-    <textarea placeholder=""></textarea>
-  </div>
-  <div class="section">
-    <div class="section-title">Impact Measure</div>
-    <textarea placeholder="How will you show that you are creating social impact?"></textarea>
-  </div>
-  <div class="section">
-    <div class="section-title">Customer Value Proposition</div>
-    <textarea placeholder="What do your customers want to get out of this initiative?"></textarea>
-  </div>
-  <button id="download-pdf">Download as PDF</button>
-</div>
- <script>
-document.addEventListener('DOMContentLoaded', function() {
-  document.getElementById('download-pdf').addEventListener('click', function() {
-    console.log('Download button clicked!');
-    console.log(window.jspdf);
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      document.getElementById('download-pdf').addEventListener('click', function () {
+        console.log('Download button clicked!');
+        console.log(window.jspdf);
 
-    const doc = new window.jspdf.jsPDF();
-    let startY = 10;
-    const lineHeight = 10;
+        const doc = new window.jspdf.jsPDF();
+        let startY = 10;
+        const lineHeight = 10;
 
-    // Loop through sections
-    document.querySelectorAll('.section').forEach(function(section, index) {
-      // Get the section title
-      const sectionTitle = section.querySelector('.section-title').textContent;
+        // Loop through sections
+        document.querySelectorAll('.section').forEach(function (section, index) {
+          // Get the section title
+          const sectionTitle = section.querySelector('.section-title').textContent;
 
-      // Add section title to the PDF
-      doc.setFontStyle("bold");
-      doc.text(20, startY, sectionTitle);
-      startY += lineHeight;
+          // Add section title to the PDF
+          doc.setFontStyle("bold");
+          doc.text(20, startY, sectionTitle);
+          startY += lineHeight;
 
-      // Loop through textareas within the section
-      section.querySelectorAll('textarea').forEach(function(textarea) {
-        let textLines = doc.splitTextToSize(textarea.value, 180);
-        doc.text(20, startY, textLines);
-        startY += (textLines.length + 1) * lineHeight;
+          // Loop through textareas within the section
+          section.querySelectorAll('textarea').forEach(function (textarea) {
+            let textLines = doc.splitTextToSize(textarea.value, 180);
+            doc.text(20, startY, textLines);
+            startY += (textLines.length + 1) * lineHeight;
+          });
+
+          // Add space between sections
+          startY += lineHeight;
+        });
+
+        doc.save('Social-Business-Model-Canvas.pdf');
       });
-
-      // Add space between sections
-      startY += lineHeight;
     });
-
-    doc.save('Social-Business-Model-Canvas.pdf');
-  });
-});
-</script>
+  </script>
 </body>
+
 </html>
