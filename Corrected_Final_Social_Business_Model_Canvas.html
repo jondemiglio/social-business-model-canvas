@@ -4,8 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Social Business Model Canvas</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js" integrity="sha512-V/C9Axb8EEL4ix79ERIJmpRd6Mp1rWVSxa2PIBCdCxqhEsfCBWp/R0xJ4U495czhcuDWrGOFYo8+QI3lJ9DK5g==" crossorigin="anonymous"></script>
-  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
   <style>
     body { font-family: Arial, sans-serif; margin: 20px; }
     .section { margin-bottom: 20px; }
@@ -96,48 +94,37 @@
   </div>
 
   <button id="download-pdf">Download as PDF</button>
+  
+  <script type="module">
+    import { jsPDF } from "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js";
+    
+    document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('download-pdf').addEventListener('click', function() {
+        const pdf = new jsPDF();
+        let yPos = 10;
 
-  <script>
-document.addEventListener('DOMContentLoaded', function() {
-  document.getElementById('download-pdf').addEventListener('click', function() {
-    const doc = new jsPDF();
-    
-    let currentSection = 0;
-    const sections = document.querySelectorAll('.section');
-    const sectionCount = sections.length;
-    
-    function addNextSectionToPDF() {
-      // Check if all sections have been added
-      if (currentSection >= sectionCount) {
-        // All sections added, save the PDF
-        doc.save('Social-Business-Model-Canvas.pdf');
-        return;
-      }
-      
-      // Process the current section
-      const section = sections[currentSection];
-      const title = section.querySelector('.section-title').textContent;
-      const content = section.querySelector('textarea').value;
-      
-      doc.setFontSize(16);
-      doc.text(title, 20, 20); // Title position
-      
-      const textLines = doc.splitTextToSize(content, 180); // Split lines to fit the page
-      doc.setFontSize(12);
-      doc.text(textLines, 20, 30); // Content position
+        document.querySelectorAll('.section').forEach(function(section, index) {
+          const title = section.querySelector('.section-title').innerText;
+          const content = section.querySelector('textarea').value;
+          
+          pdf.setFontSize(16);
+          pdf.text(title, 20, yPos);
 
-      currentSection++;
-      if (currentSection < sectionCount) {
-        // Add a new page before adding the next section
-        doc.addPage();
-      }
-      
-      addNextSectionToPDF(); // Add the next section
-    }
-    
-    addNextSectionToPDF(); // Start the process
-  });
-});
-</script>
+          pdf.setFontSize(12);
+          const lines = pdf.splitTextToSize(content, 180);
+          yPos += 10;
+          pdf.text(lines, 20, yPos);
+          yPos += lines.length * 10 + 10;
+
+          if (index < document.querySelectorAll('.section').length - 1) {
+            pdf.addPage();
+            yPos = 10; // Reset the vertical position for the new page
+          }
+        });
+
+        pdf.save('Social-Business-Model-Canvas.pdf');
+      });
+    });
+  </script>
 </body>
 </html>
