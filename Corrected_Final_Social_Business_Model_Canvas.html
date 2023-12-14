@@ -75,25 +75,23 @@
   </div>
   <button id="download-pdf">Download as PDF</button>
 </div>
- <script type="module">
-  import { jsPDF } from "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js";
-  
-  document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('download-pdf').addEventListener('click', function() {
-      const doc = new jsPDF();
-      
-      let startY = 10; // Starting Y position for the first line of text
-      const lineHeight = 10; // Line height for each new line of text
+ <script>
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('download-pdf').addEventListener('click', function() {
+    console.log('Download button clicked!'); // This should appear in the console when the button is clicked.
+    const doc = new window.jspdf.jsPDF();
 
-      document.querySelectorAll('textarea').forEach(function(textarea, index) {
-        let textLines = doc.splitTextToSize(textarea.value, 180); // Ensure the text is split to avoid going off the page
-        doc.text(20, startY, textLines);
-        startY += (textLines.length + 1) * lineHeight; // Increase startY for the next block of text
-      });
+    let startY = 10;
+    const lineHeight = 10;
 
-      doc.save('Social-Business-Model-Canvas.pdf');
+    document.querySelectorAll('textarea').forEach(function(textarea, index) {
+      let textLines = doc.splitTextToSize(textarea.value, 180);
+      doc.text(20, startY, textLines);
+      startY += (textLines.length + 1) * lineHeight;
     });
+    doc.save('Social-Business-Model-Canvas.pdf');
   });
+});
 </script>
 </body>
 </html>
