@@ -100,12 +100,28 @@
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       document.getElementById('download-pdf').addEventListener('click', function () {
-        html2canvas(document.body).then(canvas => {
-          const imgData = canvas.toDataURL('image/png');
-          const pdf = new window.jspdf.jsPDF();
+        // Get the size of the content
+        const content = document.getElementById('content');
+        const contentWidth = content.offsetWidth;
+        const contentHeight = content.offsetHeight;
 
-          // Set the size of the PDF to match the canvas
-          pdf.addImage(imgData, 'PNG', 0, 0, canvas.width / 3, canvas.height / 3);
+        // Create a canvas with the same size as the content
+        const canvas = document.createElement('canvas');
+        canvas.width = contentWidth;
+        canvas.height = contentHeight;
+
+        // Draw the content to the canvas
+        const context = canvas.getContext('2d');
+        html2canvas(content, { canvas: canvas }).then(() => {
+          const imgData = canvas.toDataURL('image/png');
+          const pdf = new window.jspdf.jsPDF({
+            orientation: 'landscape', // Use 'portrait' if needed
+            unit: 'mm',
+            format: [contentWidth, contentHeight]
+          });
+
+          // Add the image to the PDF
+          pdf.addImage(imgData, 'PNG', 0, 0, contentWidth, contentHeight);
 
           // Save the PDF with a unique name
           const timestamp = new Date().toISOString().replace(/[-:]/g, '').split('.')[0];
