@@ -98,7 +98,6 @@
 
   <script>
     document.getElementById('download-pdf').addEventListener('click', function() {
-      // Create a new jsPDF instance
       const pdf = new jsPDF();
 
       let yPos = 20;
@@ -116,14 +115,12 @@
         pdf.text(lines, 20, yPos + 10);
         yPos += lines.length * 10 + 10; // Adjust space for the next section
 
-        // Add a new page if not the last section
         if (index < document.querySelectorAll('.section').length - 1) {
           pdf.addPage();
           yPos = 20; // Reset yPos for the new page
         }
       });
 
-      // Save the created PDF
       pdf.save('Social-Business-Model-Canvas.pdf');
     });
   </script>
