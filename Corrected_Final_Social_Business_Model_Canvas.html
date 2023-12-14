@@ -99,11 +99,11 @@
           section.querySelectorAll('textarea').forEach(function(textarea) {
             let textLines = doc.splitTextToSize(textarea.value, 180);
             doc.text(20, startY, textLines);
-            startY += (textLines.length + 1) * lineHeight + 5; // Increase the vertical spacing
+            startY += (textLines.length + 1) * lineHeight; // Maintain the original spacing
           });
 
           // Add space between sections
-          startY += lineHeight;
+          startY += lineHeight + 5; // Increase the vertical spacing
         });
 
         doc.save('Social-Business-Model-Canvas.pdf');
