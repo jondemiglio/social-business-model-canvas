@@ -10,7 +10,7 @@
     body { font-family: Arial, sans-serif; margin: 20px; }
     .section { margin-bottom: 20px; }
     .section-title { font-weight: bold; margin-bottom: 5px; }
-    textarea { width: 100%; height: 100px; }
+    textarea { width: 100%; height: 50px; }
     button { padding: 10px 20px; font-size: 16px; margin-top: 20px; }
   </style>
 </head>
@@ -99,91 +99,41 @@
 
   <script>
     document.getElementById('download-pdf').addEventListener('click', function() {
-     ar docDefinition = {
-  content: [
-    {
-      columns: [
-        {
-          // First column - Key Resources and Partners + Key Stakeholders
-          stack: [
-            { text: 'Key Resources', style: 'header' },
-            { text: 'Description for Key Resources...', style: 'content' },
-            { text: 'Partners + Key Stakeholders', style: 'header' },
-            { text: 'Description for Partners + Key Stakeholders...', style: 'content' }
-          ],
+      var docDefinition = {
+        content: [
+          {
+            columns: [
+              // First column content
+              {
+                stack: [
+                  { text: 'Key Resources', style: 'header' },
+                  { text: document.getElementById('key-resources').value, style: 'content' },
+                  { text: 'Partners + Key Stakeholders', style: 'header' },
+                  { text: document.getElementById('partners').value, style: 'content' }
+                  // Add more sections as needed
+                ],
+              },
+              // Repeat for each column as needed
+            ],
+            // Define the column widths
+            columnGap: 10
+          }
+        ],
+        styles: {
+          header: {
+            bold: true,
+            fontSize: 14,
+            margin: [0, 5, 0, 15] // left, top, right, bottom
+          },
+          content: {
+            fontSize: 11,
+            margin: [0, 0, 0, 10]
+          }
         },
-        {
-          // Second column - Key Activities and Cost Structure
-          stack: [
-            { text: 'Key Activities', style: 'header' },
-            { text: 'Description for Key Activities...', style: 'content' },
-            { text: 'Cost Structure', style: 'header' },
-            { text: 'Description for Cost Structure...', style: 'content' }
-          ],
-        },
-        {
-          // Third column - Type of Intervention, Channels, and Surplus
-          stack: [
-            { text: 'Type of Intervention', style: 'header' },
-            { text: 'Description for Type of Intervention...', style: 'content' },
-            { text: 'Channels', style: 'header' },
-            { text: 'Description for Channels...', style: 'content' },
-            { text: 'Surplus', style: 'header' },
-            { text: 'Description for Surplus...', style: 'content' }
-          ],
-        },
-        {
-          // Fourth column - Segments
-          stack: [
-            { text: 'Segments', style: 'header' },
-            { text: 'Beneficiary', style: 'subheader' },
-            { text: 'Description for Beneficiary...', style: 'content' },
-            { text: 'Customer', style: 'subheader' },
-            { text: 'Description for Customer...', style: 'content' }
-          ],
-        },
-        {
-          // Fifth column - Value Proposition, Revenue
-          stack: [
-            { text: 'Value Proposition', style: 'header' },
-            { text: 'Social Value Proposition', style: 'subheader' },
-            { text: 'Impact Measures', style: 'subheader' },
-            { text: 'Customer Value Proposition', style: 'subheader' },
-            { text: 'Description for Value Proposition...', style: 'content' },
-            { text: 'Revenue', style: 'header' },
-            { text: 'Description for Revenue...', style: 'content' }
-          ],
+        defaultStyle: {
+          // can set a default font
         }
-      ]
-    }
-  ],
-  styles: {
-    header: {
-      fontSize: 16,
-      bold: true,
-      margin: [0, 20, 0, 10], // left, top, right, bottom
-    },
-    subheader: {
-      fontSize: 14,
-      bold: true,
-      margin: [0, 10, 0, 5]
-    },
-    content: {
-      fontSize: 12,
-      margin: [0, 2, 0, 5]
-    }
-  }
-};
-
-      document.querySelectorAll('.section').forEach(function(section) {
-        const title = section.querySelector('.section-title').innerText;
-        const content = section.querySelector('textarea').value;
-
-        docDefinition.content.push({ text: title, style: 'sectionHeader' });
-        if (content.trim() !== '') {
-          docDefinition.content.push({ text: content, style: 'sectionContent' });
-        }
-      });
+      };
 
       pdfMake.createPdf(docDefinition).download('Social-Business-Model-Canvas.pdf');
     });
