@@ -1,24 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Social Business Model Canvas</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js" integrity="sha512-V/C9Axb8EEL4ix79ERIJmpRd6Mp1rWVSxa2PIBCdCxqhEsfCBWp/R0xJ4U495czhcuDWrGOFYo8+QI3lJ9DK5g==" crossorigin="anonymous"></script>
-<style>
-  body { font-family: Arial, sans-serif; margin: 20px; }
-  .canvas-container { max-width: 1024px; margin: auto; display: grid; grid-template-columns: repeat(5, 1fr); grid-gap: 10px; }
-  .section { margin-bottom: 20px; }
-  .section-title { font-weight: bold; margin-bottom: 5px; }
-  textarea { width: 100%; height: 100px; }
-  button { padding: 10px 20px; font-size: 16px; margin-top: 20px; }
-  /* Layout adjustments */
-  .double { grid-column: span 2; }
-  .triple { grid-column: span 3; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Social Business Model Canvas</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js" integrity="sha512-V/C9Axb8EEL4ix79ERIJmpRd6Mp1rWVSxa2PIBCdCxqhEsfCBWp/R0xJ4U495czhcuDWrGOFYo8+QI3lJ9DK5g==" crossorigin="anonymous"></script>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    .canvas-container { max-width: 1024px; margin: auto; display: grid; grid-template-columns: repeat(5, 1fr); grid-gap: 10px; }
+    .section { margin-bottom: 20px; }
+    .section-title { font-weight: bold; margin-bottom: 5px; }
+    textarea { width: 100%; height: 100px; }
+    button { padding: 10px 20px; font-size: 16px; margin-top: 20px; }
+  </style>
 </head>
 <body>
-<div class="canvas-container">
+  <div class="canvas-container">
     <h1>Social Business Model Canvas</h1>
     <div class="section triple">
       <div class="section-title">Key Resources</div>
@@ -75,55 +72,58 @@
   <button id="download-pdf">Download as PDF</button>
   </div>
   <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('download-pdf').addEventListener('click', function() {
-      console.log('Download button clicked!');
-      console.log(window.jspdf);
+    document.addEventListener('DOMContentLoaded', function () {
+      document.getElementById('download-pdf').addEventListener('click', function () {
+        console.log('Download button clicked!');
+        console.log(window.jspdf);
 
-      const doc = new window.jspdf.jsPDF();
-      const lineHeight = 10;
+        const doc = new window.jspdf.jsPDF();
+        const lineHeight = 10;
+        const fontSize = 12;
 
-      // Loop through sections
-      document.querySelectorAll('.section').forEach(function(section, index) {
-        // Get the section title
-        const sectionTitle = section.querySelector('.section-title').textContent;
+        // Loop through sections
+        document.querySelectorAll('.section').forEach(function (section, index) {
+          // Get the section title
+          const sectionTitle = section.querySelector('.section-title').textContent;
 
-        // Add section title to the PDF in bold
-        doc.setFont("helvetica", "bold");
-        doc.setFontSize(14); // You can adjust the font size if needed
-        doc.text(20, lineHeight, sectionTitle);
+          // Add section title to the PDF in bold
+          doc.setFont("helvetica", "bold");
+          doc.setFontSize(14); // You can adjust the font size if needed
+          doc.text(20, lineHeight, sectionTitle);
 
-        // Maintain the original spacing
-        let startY = lineHeight * 2;
+          // Maintain the original spacing
+          let startY = lineHeight * 2;
 
-        // Explicitly select textareas within the section
-        section.querySelectorAll('textarea').forEach(function(textarea) {
-          let textLines = doc.splitTextToSize(textarea.value, 180);
-          
-          // Check if there is enough space on the current page
-          if (startY + textLines.length * lineHeight > doc.internal.pageSize.height) {
-            // If not, add a new page
-            doc.addPage();
-            startY = lineHeight;
-          }
+          // Explicitly select textareas within the section
+          section.querySelectorAll('textarea').forEach(function (textarea) {
+            let textLines = doc.splitTextToSize(textarea.value, 180);
 
-          // Add text to the PDF
-          textLines.forEach(line => {
-            doc.text(20, startY, line);
-            startY += lineHeight;
+            // Check if there is enough space on the current page
+            if (startY + textLines.length * lineHeight > doc.internal.pageSize.height) {
+              // If not, add a new page
+              doc.addPage();
+              doc.setFontSize(fontSize); // Set font size for textareas
+              startY = lineHeight;
+            }
+
+            // Add text to the PDF
+            textLines.forEach(line => {
+              doc.text(20, startY, line);
+              startY += lineHeight;
+            });
+
+            // Add extra spacing between lines
+            startY += 5;
           });
 
-          // Add extra spacing between lines
-          startY += 5;
+          // Add space between sections and reset font size
+          doc.setFontSize(14); // Reset font size for section titles
+          startY += lineHeight + 5; // Increase the vertical spacing
         });
 
-        // Add space between sections
-        startY += lineHeight + 5; // Increase the vertical spacing
+        doc.save('Social-Business-Model-Canvas.pdf');
       });
-
-      doc.save('Social-Business-Model-Canvas.pdf');
     });
-  });
-</script>
+  </script>
 </body>
 </html>
