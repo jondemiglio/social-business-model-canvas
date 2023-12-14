@@ -78,7 +78,10 @@
  <script>
 document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('download-pdf').addEventListener('click', function() {
-    console.log('Download button clicked!'); // This should appear in the console when the button is clicked.
+    console.log('Download button clicked!');
+    console.log(window.jspdf); // Add this line
+
+    const doc = new window.jspdf.jsPDF();
     const doc = new window.jspdf.jsPDF();
 
     let startY = 10;
