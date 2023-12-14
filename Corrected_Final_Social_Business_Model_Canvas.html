@@ -102,9 +102,6 @@
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       document.getElementById('download-pdf').addEventListener('click', function () {
-        console.log('Download button clicked!');
-        console.log(window.jspdf);
-
         const doc = new window.jspdf.jsPDF();
         const lineHeight = 10;
         const fontSize = 12;
@@ -135,23 +132,4 @@
             }
 
             // Add text to the PDF
-            textLines.forEach(line => {
-              doc.text(20, startY, line);
-              startY += lineHeight;
-            });
-
-            // Add extra spacing between lines
-            startY += 5;
-          });
-
-          // Add space between sections and reset font size
-          doc.setFontSize(14); // Reset font size for section titles
-          startY += lineHeight + 5; // Increase the vertical spacing
-        });
-
-        doc.save('Social-Business-Model-Canvas.pdf');
-      });
-    });
-  </script>
-</body>
-</html>
+           
