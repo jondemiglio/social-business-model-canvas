@@ -99,21 +99,81 @@
 
   <script>
     document.getElementById('download-pdf').addEventListener('click', function() {
-      var docDefinition = {
-        content: [],
-        pageMargins: [40, 60, 40, 60], // [left, top, right, bottom]
-        styles: {
-          sectionHeader: {
-            bold: true,
-            fontSize: 14,
-            margin: [0, 5, 0, 10] // left, top, right, bottom
-          },
-          sectionContent: {
-            fontSize: 12,
-            margin: [0, 0, 0, 10]
-          }
+     ar docDefinition = {
+  content: [
+    {
+      columns: [
+        {
+          // First column - Key Resources and Partners + Key Stakeholders
+          stack: [
+            { text: 'Key Resources', style: 'header' },
+            { text: 'Description for Key Resources...', style: 'content' },
+            { text: 'Partners + Key Stakeholders', style: 'header' },
+            { text: 'Description for Partners + Key Stakeholders...', style: 'content' }
+          ],
+        },
+        {
+          // Second column - Key Activities and Cost Structure
+          stack: [
+            { text: 'Key Activities', style: 'header' },
+            { text: 'Description for Key Activities...', style: 'content' },
+            { text: 'Cost Structure', style: 'header' },
+            { text: 'Description for Cost Structure...', style: 'content' }
+          ],
+        },
+        {
+          // Third column - Type of Intervention, Channels, and Surplus
+          stack: [
+            { text: 'Type of Intervention', style: 'header' },
+            { text: 'Description for Type of Intervention...', style: 'content' },
+            { text: 'Channels', style: 'header' },
+            { text: 'Description for Channels...', style: 'content' },
+            { text: 'Surplus', style: 'header' },
+            { text: 'Description for Surplus...', style: 'content' }
+          ],
+        },
+        {
+          // Fourth column - Segments
+          stack: [
+            { text: 'Segments', style: 'header' },
+            { text: 'Beneficiary', style: 'subheader' },
+            { text: 'Description for Beneficiary...', style: 'content' },
+            { text: 'Customer', style: 'subheader' },
+            { text: 'Description for Customer...', style: 'content' }
+          ],
+        },
+        {
+          // Fifth column - Value Proposition, Revenue
+          stack: [
+            { text: 'Value Proposition', style: 'header' },
+            { text: 'Social Value Proposition', style: 'subheader' },
+            { text: 'Impact Measures', style: 'subheader' },
+            { text: 'Customer Value Proposition', style: 'subheader' },
+            { text: 'Description for Value Proposition...', style: 'content' },
+            { text: 'Revenue', style: 'header' },
+            { text: 'Description for Revenue...', style: 'content' }
+          ],
         }
-      };
+      ]
+    }
+  ],
+  styles: {
+    header: {
+      fontSize: 16,
+      bold: true,
+      margin: [0, 20, 0, 10], // left, top, right, bottom
+    },
+    subheader: {
+      fontSize: 14,
+      bold: true,
+      margin: [0, 10, 0, 5]
+    },
+    content: {
+      fontSize: 12,
+      margin: [0, 2, 0, 5]
+    }
+  }
+};
 
       document.querySelectorAll('.section').forEach(function(section) {
         const title = section.querySelector('.section-title').innerText;
