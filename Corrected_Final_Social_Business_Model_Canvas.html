@@ -89,8 +89,15 @@ document.addEventListener('DOMContentLoaded', function() {
       // Get the section title
       const sectionTitle = section.querySelector('.section-title').textContent;
 
-      // Add section title to the PDF in bold
-      doc.setFont("helvetica", "bold");
+      // Add section title to the PDF
+      if (index === 0) {
+        // Apply bold style for the first section (assuming it's the header)
+        doc.setFont("helvetica", "bold");
+      } else {
+        // Reset to normal style for subsequent sections
+        doc.setFont("helvetica", "normal");
+      }
+
       doc.setFontSize(14); // You can adjust the font size if needed
       doc.text(20, startY, sectionTitle);
       startY += lineHeight;
