@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Social Business Model Canvas</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
   <style>
     body { font-family: Arial, sans-serif; margin: 20px; }
     .section { margin-bottom: 20px; }
@@ -98,8 +98,12 @@
 
   <script>
     document.getElementById('download-pdf').addEventListener('click', function() {
-      const pdf = new jsPDF();
+      if (typeof jsPDF === "undefined") {
+        console.error("jsPDF not found");
+        return;
+      }
 
+      const pdf = new jsPDF();
       let yPos = 20;
 
       document.querySelectorAll('.section').forEach(function(section, index) {
@@ -111,13 +115,13 @@
 
         pdf.setFontSize(12);
         const lines = pdf.splitTextToSize(content, 180);
-        yPos += 10; // Adjust space for the content
+        yPos += 10;
         pdf.text(lines, 20, yPos + 10);
-        yPos += lines.length * 10 + 10; // Adjust space for the next section
+        yPos += lines.length * 10 + 10;
 
         if (index < document.querySelectorAll('.section').length - 1) {
           pdf.addPage();
-          yPos = 20; // Reset yPos for the new page
+          yPos = 20;
         }
       });
 
