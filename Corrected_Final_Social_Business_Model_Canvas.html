@@ -101,15 +101,20 @@
           let textLines = doc.splitTextToSize(textarea.value, 180);
           
           // Check if there is enough space on the current page
-          if (startY + textLines.length * lineHeight > 270) {
+          if (startY + textLines.length * lineHeight > doc.internal.pageSize.height) {
             // If not, add a new page
             doc.addPage();
             startY = lineHeight;
           }
 
           // Add text to the PDF
-          doc.text(20, startY, textLines);
-          startY += (textLines.length + 1) * lineHeight;
+          textLines.forEach(line => {
+            doc.text(20, startY, line);
+            startY += lineHeight;
+          });
+
+          // Add extra spacing between lines
+          startY += 5;
         });
 
         // Add space between sections
