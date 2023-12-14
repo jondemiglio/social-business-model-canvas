@@ -100,36 +100,58 @@
   </div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      document.getElementById('download-pdf').addEventListener('click', function () {
-        const doc = new window.jspdf.jsPDF();
-        const lineHeight = 10;
-        const fontSize = 12;
+  document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('download-pdf').addEventListener('click', function () {
+      const doc = new window.jspdf.jsPDF();
+      const lineHeight = 10;
+      const fontSize = 12;
 
-        // Loop through sections
-        document.querySelectorAll('.section').forEach(function (section, index) {
-          // Get the section title
-          const sectionTitle = section.querySelector('.section-title').textContent;
+      // Loop through sections
+      document.querySelectorAll('.section').forEach(function (section, index) {
+        // Get the section title
+        const sectionTitle = section.querySelector('.section-title').textContent;
 
-          // Add section title to the PDF in bold
-          doc.setFont("helvetica", "bold");
-          doc.setFontSize(14); // You can adjust the font size if needed
-          doc.text(20, lineHeight, sectionTitle);
+        // Add section title to the PDF in bold
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(14); // You can adjust the font size if needed
+        doc.text(20, lineHeight, sectionTitle);
 
-          // Maintain the original spacing
-          let startY = lineHeight * 2;
+        // Maintain the original spacing
+        let startY = lineHeight * 2;
 
-          // Explicitly select textareas within the section
-          section.querySelectorAll('textarea').forEach(function (textarea) {
-            let textLines = doc.splitTextToSize(textarea.value, 180);
+        // Explicitly select textareas within the section
+        section.querySelectorAll('textarea').forEach(function (textarea) {
+          let textLines = doc.splitTextToSize(textarea.value, 180);
 
-            // Check if there is enough space on the current page
-            if (startY + textLines.length * lineHeight > doc.internal.pageSize.height) {
-              // If not, add a new page
-              doc.addPage();
-              doc.setFontSize(fontSize); // Set font size for textareas
-              startY = lineHeight;
-            }
+          // Check if there is enough space on the current page
+          if (startY + textLines.length * lineHeight > doc.internal.pageSize.height) {
+            // If not, add a new page
+            doc.addPage();
+            doc.setFontSize(fontSize); // Set font size for textareas
+            startY = lineHeight;
+          }
 
-            // Add text to the PDF
-           
+          // Add text to the PDF
+          textLines.forEach(line => {
+            doc.text(20, startY, line);
+            startY += lineHeight;
+          });
+
+          // Add extra spacing between lines
+          startY += 5;
+        });
+
+        // Add space between sections and reset font size
+        doc.setFontSize(14); // Reset font size for section titles
+        startY += lineHeight + 5; // Increase the vertical spacing
+      });
+
+      // Save the PDF with a unique name
+      const timestamp = new Date().toISOString().replace(/[-:]/g, '').split('.')[0];
+      const filename = `Social-Business-Model-Canvas-${timestamp}.pdf`;
+      doc.save(filename);
+    });
+  });
+</script>
+</body>
+</html>
