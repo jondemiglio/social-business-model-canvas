@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Social Business Model Canvas</title>
-  <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"></script>
   <style>
     body { font-family: Arial, sans-serif; margin: 20px; }
     .section { margin-bottom: 20px; }
@@ -94,20 +94,15 @@
     <textarea placeholder="What do your customers want to get out of this initiative?"></textarea>
   </div>
 
-  <button id="download-pdf">Download as PDF</button>
+ <button id="download-pdf">Download as PDF</button>
 
   <script>
     document.getElementById('download-pdf').addEventListener('click', function() {
-      if (typeof jsPDF === "undefined") {
-        console.error("jsPDF not found");
-        return;
-      }
-
       const pdf = new jsPDF();
       let yPos = 10;
 
       document.querySelectorAll('.section').forEach(function(section, index) {
-        if (yPos > 260) { // Check if the current position is near the bottom of the page
+        if (yPos > 260) { 
           pdf.addPage();
           yPos = 10;
         }
@@ -118,11 +113,16 @@
         pdf.setFontSize(16);
         pdf.text(title, 10, yPos);
 
-        yPos += 6; // Small gap between title and content
+        yPos += 6; 
         pdf.setFontSize(12);
         const lines = pdf.splitTextToSize(content, 180);
         pdf.text(lines, 10, yPos + 6);
-        yPos += (lines.length + 1) * 6; // Update yPos for the next section
+        yPos += (lines.length + 1) * 6;
+
+        if (index < document.querySelectorAll('.section').length - 1) {
+          pdf.addPage();
+          yPos = 10;
+        }
       });
 
       pdf.save('Social-Business-Model-Canvas.pdf');
