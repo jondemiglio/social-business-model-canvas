@@ -72,7 +72,7 @@
     <div class="section-title">Customer Value Proposition</div>
     <textarea placeholder="What do your customers want to get out of this initiative?"></textarea>
   </div>
- <button id="download-pdf">Download as PDF</button>
+  <button id="download-pdf">Download as PDF</button>
   </div>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -99,7 +99,7 @@
           section.querySelectorAll('textarea').forEach(function(textarea) {
             let textLines = doc.splitTextToSize(textarea.value, 180);
             doc.text(20, startY, textLines);
-            startY += (textLines.length + 1) * lineHeight;
+            startY += (textLines.length + 1) * lineHeight + 5; // Increase the vertical spacing
           });
 
           // Add space between sections
