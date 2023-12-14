@@ -97,33 +97,34 @@
   <button id="download-pdf">Download as PDF</button>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      document.getElementById('download-pdf').addEventListener('click', function() {
-        // Use jsPDF from the global scope
-        const pdf = new jsPDF.jsPDF();
-        let yPos = 20;
+    document.getElementById('download-pdf').addEventListener('click', function() {
+      // Create a new jsPDF instance
+      const pdf = new jsPDF();
 
-        document.querySelectorAll('.section').forEach(function(section, index) {
-          const title = section.querySelector('.section-title').innerText;
-          const content = section.querySelector('textarea').value;
-          
-          pdf.setFontSize(16);
-          pdf.text(title, 20, yPos);
+      let yPos = 20;
 
-          pdf.setFontSize(12);
-          const lines = pdf.splitTextToSize(content, 180);
-          yPos += 10;
-          pdf.text(lines, 20, yPos + 10);
-          yPos += lines.length * 10 + 10;
+      document.querySelectorAll('.section').forEach(function(section, index) {
+        const title = section.querySelector('.section-title').innerText;
+        const content = section.querySelector('textarea').value;
 
-          if (index < document.querySelectorAll('.section').length - 1) {
-            pdf.addPage();
-            yPos = 20; // Reset yPos for the new page
-          }
-        });
+        pdf.setFontSize(16);
+        pdf.text(title, 20, yPos);
 
-        pdf.save('Social-Business-Model-Canvas.pdf');
+        pdf.setFontSize(12);
+        const lines = pdf.splitTextToSize(content, 180);
+        yPos += 10; // Adjust space for the content
+        pdf.text(lines, 20, yPos + 10);
+        yPos += lines.length * 10 + 10; // Adjust space for the next section
+
+        // Add a new page if not the last section
+        if (index < document.querySelectorAll('.section').length - 1) {
+          pdf.addPage();
+          yPos = 20; // Reset yPos for the new page
+        }
       });
+
+      // Save the created PDF
+      pdf.save('Social-Business-Model-Canvas.pdf');
     });
   </script>
 </body>
