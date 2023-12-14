@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Social Business Model Canvas</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js" integrity="sha512-V/C9Axb8EEL4ix79ERIJmpRd6Mp1rWVSxa2PIBCdCxqhEsfCBWp/R0xJ4U495czhcuDWrGOFYo8+QI3lJ9DK5g==" crossorigin="anonymous"></script>
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
   <style>
     body { font-family: Arial, sans-serif; margin: 20px; }
     .section { margin-bottom: 20px; }
@@ -99,50 +100,39 @@
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       document.getElementById('download-pdf').addEventListener('click', function () {
-        const doc = new window.jspdf.jsPDF();
-        const lineHeight = 10;
+        const pdf = new window.jspdf.jsPDF();
+        const sections = document.querySelectorAll('.section');
 
-        // Loop through sections
-        document.querySelectorAll('.section').forEach(function (section, index) {
+        function addSectionToPDF(index) {
+          const section = sections[index];
+
           // Get the section title
           const sectionTitle = section.querySelector('.section-title').textContent;
 
           // Add section title to the PDF in bold
-          doc.setFont("helvetica", "bold");
-          doc.setFontSize(14); // You can adjust the font size if needed
-          doc.text(20, lineHeight, sectionTitle);
+          pdf.setFont("helvetica", "bold");
+          pdf.setFontSize(14); // You can adjust the font size if needed
+          pdf.text(20, 10, sectionTitle);
 
-          // Maintain the original spacing
-          let startY = lineHeight * 2;
+          // Use html2canvas to capture the section as an image
+          html2canvas(section).then(canvas => {
+            const imageData = canvas.toDataURL('image/png');
 
-          // Explicitly select textareas within the section
-          section.querySelectorAll('textarea').forEach(function (textarea) {
-            let textLines = doc.splitTextToSize(textarea.value, 180);
+            // Add the image to the PDF
+            pdf.addImage(imageData, 'PNG', 20, 20, 160, 100);
 
-            // Check if there is enough space on the current page
-            if (startY + textLines.length * lineHeight > doc.internal.pageSize.height) {
-              // If not, add a new page
-              doc.addPage();
-              doc.setFontSize(14); // Reset font size for section titles
-              startY = lineHeight * 2;
-            }
-
-            // Add text to the PDF
-            textLines.forEach(line => {
-              doc.text(20, startY, line);
-              startY += lineHeight;
-            });
-
-            // Add extra spacing between lines
-            startY += 5;
+            // Add space between sections
+            pdf.addPage();
           });
+        }
 
-          // Add space between sections
-          startY += lineHeight + 5; // Increase the vertical spacing
-        });
+        // Loop through sections
+        for (let i = 0; i < sections.length; i++) {
+          addSectionToPDF(i);
+        }
 
         // Save PDF
-        doc.save('Social-Business-Model-Canvas.pdf');
+        pdf.save('Social-Business-Model-Canvas.pdf');
       });
     });
   </script>
