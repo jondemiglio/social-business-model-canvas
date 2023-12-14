@@ -101,15 +101,16 @@
     document.getElementById('download-pdf').addEventListener('click', function() {
       var docDefinition = {
         content: [],
+        pageMargins: [40, 60, 40, 60], // [left, top, right, bottom]
         styles: {
           sectionHeader: {
             bold: true,
             fontSize: 14,
-            margin: [0, 15, 0, 15] // left, top, right, bottom
+            margin: [0, 5, 0, 10] // left, top, right, bottom
           },
           sectionContent: {
             fontSize: 12,
-            margin: [0, 5, 0, 10]
+            margin: [0, 0, 0, 10]
           }
         }
       };
@@ -119,7 +120,9 @@
         const content = section.querySelector('textarea').value;
 
         docDefinition.content.push({ text: title, style: 'sectionHeader' });
-        docDefinition.content.push({ text: content || ' ', style: 'sectionContent' });
+        if (content.trim() !== '') {
+          docDefinition.content.push({ text: content, style: 'sectionContent' });
+        }
       });
 
       pdfMake.createPdf(docDefinition).download('Social-Business-Model-Canvas.pdf');
