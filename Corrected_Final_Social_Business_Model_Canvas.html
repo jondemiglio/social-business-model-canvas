@@ -5,6 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Social Business Model Canvas</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+  <script>
+    var jsPDF;
+    (function loadJsPDF() {
+      var script = document.createElement('script');
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js';
+      script.onload = function() {
+        jsPDF = window.jspdf.jsPDF;
+      };
+      document.head.appendChild(script);
+    })();
+  </script>
   <style>
     body { font-family: Arial, sans-serif; margin: 20px; }
     .section { margin-bottom: 20px; }
@@ -98,8 +109,8 @@
 
   <script>
     document.getElementById('download-pdf').addEventListener('click', function() {
-      if (typeof jsPDF === "undefined") {
-        console.error("jsPDF not found");
+      if (!jsPDF) {
+        console.error("jsPDF not loaded");
         return;
       }
 
@@ -128,5 +139,7 @@
       pdf.save('Social-Business-Model-Canvas.pdf');
     });
   </script>
+</body>
+</html>
 </body>
 </html>
