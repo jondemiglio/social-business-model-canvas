@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Social Business Model Canvas</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js" integrity="sha512-V/C9Axb8EEL4ix79ERIJmpRd6Mp1rWVSxa2PIBCdCxqhEsfCBWp/R0xJ4U495czhcuDWrGOFYo8+QI3lJ9DK5g==" crossorigin="anonymous"></script>
-  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.5.13/dist/jspdf.plugin.autotable.full.js"></script>
   <style>
     body { font-family: Arial, sans-serif; margin: 20px; }
     .section { margin-bottom: 20px; }
@@ -95,40 +95,38 @@
     <textarea placeholder="What do your customers want to get out of this initiative?"></textarea>
   </div>
 
-  <button id="download-pdf">Download as PDF</button>
+ <button id="download-pdf">Download as PDF</button>
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       document.getElementById('download-pdf').addEventListener('click', function () {
-        // Get the size of the content
-        const content = document.getElementById('content');
-        const contentWidth = content.offsetWidth;
-        const contentHeight = content.offsetHeight;
+        const doc = new window.jspdf.jsPDF();
+        
+        // Loop through sections
+        document.querySelectorAll('.section').forEach(function (section, index) {
+          // Get the section title and textarea value
+          const sectionTitle = section.querySelector('.section-title').textContent;
+          const textareaValue = section.querySelector('textarea').value;
 
-        // Create a canvas with the same size as the content
-        const canvas = document.createElement('canvas');
-        canvas.width = contentWidth;
-        canvas.height = contentHeight;
+          // Add section title to the PDF
+          doc.setFont("helvetica", "bold");
+          doc.setFontSize(14);
+          doc.text(20, 10 + index * 60, sectionTitle);
 
-        // Draw the content to the canvas
-        const context = canvas.getContext('2d');
-        html2canvas(content, { canvas: canvas }).then(() => {
-          const imgData = canvas.toDataURL('image/png');
-          const pdf = new window.jspdf.jsPDF({
-            orientation: 'landscape', // Use 'portrait' if needed
-            unit: 'mm',
-            format: [contentWidth, contentHeight]
+          // Add textarea value to the PDF using autotable
+          doc.autoTable({
+            startY: 15 + index * 60,
+            columns: [{ header: 'Value', dataKey: 'value' }],
+            body: [{ value: textareaValue }],
           });
 
-          // Add the image to the PDF
-          pdf.addImage(imgData, 'PNG', 0, 0, contentWidth, contentHeight);
-
-          // Save the PDF with a unique name
-          const timestamp = new Date().toISOString().replace(/[-:]/g, '').split('.')[0];
-          const filename = `Social-Business-Model-Canvas-${timestamp}.pdf`;
-
-          pdf.save(filename);
+          // Add space between sections
+          doc.setLineWidth(0.5);
+          doc.line(10, 55 + index * 60, 200, 55 + index * 60);
         });
+
+        // Save the PDF
+        doc.save('Social-Business-Model-Canvas.pdf');
       });
     });
   </script>
