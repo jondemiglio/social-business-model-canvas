@@ -98,8 +98,7 @@
 
     <button id="download-pdf">Download as PDF</button>
   </div>
-
-  <script>
+ <script>
   document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('download-pdf').addEventListener('click', function () {
       const doc = new window.jspdf.jsPDF();
@@ -149,7 +148,12 @@
       // Save the PDF with a unique name
       const timestamp = new Date().toISOString().replace(/[-:]/g, '').split('.')[0];
       const filename = `Social-Business-Model-Canvas-${timestamp}.pdf`;
-      doc.save(filename);
+
+      // Use Blob to convert the content to data URL
+      doc.output('dataurlnewwindow');
+
+      // To save the file directly
+      // doc.save(filename);
     });
   });
 </script>
